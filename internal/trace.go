@@ -167,7 +167,7 @@ func (ctx *TraceContext) marshal2Bean() *TraceTransferBean {
 			buffer.WriteRune(contentSplitter)
 			buffer.WriteString(strconv.Itoa(ctx.ContextCode))
 			buffer.WriteRune(contentSplitter)
-			buffer.WriteString(strconv.FormatInt(ctx.TimeStamp, 10))
+			buffer.WriteString("0")
 			buffer.WriteRune(contentSplitter)
 			ss := strings.Split(ctx.GroupName, "%")
 			if len(ss) == 2 {
