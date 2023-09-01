@@ -21,17 +21,32 @@ import (
 	"context"
 	"fmt"
 	"os"
-	"strconv"
 
-	"github.com/apache/rocketmq-client-go/v2"
-	"github.com/apache/rocketmq-client-go/v2/primitive"
-	"github.com/apache/rocketmq-client-go/v2/producer"
+	"github.com/zhiyin2021/rocketmq-client-go"
+	"github.com/zhiyin2021/rocketmq-client-go/primitive"
+	"github.com/zhiyin2021/rocketmq-client-go/producer"
+)
+
+const (
+	endpoint  = "http://MQ_INST_5845280770824374_BYi43TiH.ap-southeast-1.mq.aliyuncs.com:80"
+	accesskey = "LTAI5t9WMn6fLwuiF4PRNUgQ"
+	secretkey = "QA1LhXVTNzXKX5ORBFDQKO9w16X3IL"
+	namespace = "MQ_INST_5845280770824374_BYi43TiH"
+	topic     = "GO_TEST"
+	groupName = "GID_GO_TEST"
 )
 
 // Package main implements a simple producer to send message.
 func main() {
 	p, _ := rocketmq.NewProducer(
-		producer.WithNsResolver(primitive.NewPassthroughResolver([]string{"127.0.0.1:9876"})),
+		producer.WithCredentials(primitive.Credentials{
+			AccessKey: accesskey,
+			SecretKey: secretkey,
+		}),
+		producer.WithGroupName(groupName),
+		producer.WithNamespace(namespace),
+
+		producer.WithNsResolver(primitive.NewPassthroughResolver([]string{endpoint})),
 		producer.WithRetry(2),
 	)
 	err := p.Start()
@@ -39,20 +54,17 @@ func main() {
 		fmt.Printf("start producer error: %s", err.Error())
 		os.Exit(1)
 	}
-	topic := "test"
 
-	for i := 0; i < 10; i++ {
-		msg := &primitive.Message{
-			Topic: topic,
-			Body:  []byte("Hello RocketMQ Go Client! " + strconv.Itoa(i)),
-		}
-		res, err := p.SendSync(context.Background(), msg)
+	msg := &primitive.Message{
+		Topic: topic,
+		Body:  []byte("Hello RocketMQ Go Client! "),
+	}
+	res, err := p.SendSync(context.Background(), msg)
 
-		if err != nil {
-			fmt.Printf("send message error: %s\n", err)
-		} else {
-			fmt.Printf("send message success: result=%s\n", res.String())
-		}
+	if err != nil {
+		fmt.Printf("send message error: %s\n", err)
+	} else {
+		fmt.Printf("send message success: result=%s\n", res.String())
 	}
 	err = p.Shutdown()
 	if err != nil {

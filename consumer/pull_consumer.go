@@ -28,15 +28,15 @@ import (
 	"sync/atomic"
 	"time"
 
-	errors2 "github.com/apache/rocketmq-client-go/v2/errors"
-	"github.com/apache/rocketmq-client-go/v2/internal/remote"
-	"github.com/apache/rocketmq-client-go/v2/internal/utils"
+	errors2 "github.com/zhiyin2021/rocketmq-client-go/errors"
+	"github.com/zhiyin2021/rocketmq-client-go/internal/remote"
+	"github.com/zhiyin2021/rocketmq-client-go/internal/utils"
 
 	"github.com/pkg/errors"
 
-	"github.com/apache/rocketmq-client-go/v2/internal"
-	"github.com/apache/rocketmq-client-go/v2/primitive"
-	"github.com/apache/rocketmq-client-go/v2/rlog"
+	"github.com/zhiyin2021/rocketmq-client-go/internal"
+	"github.com/zhiyin2021/rocketmq-client-go/primitive"
+	"github.com/zhiyin2021/rocketmq-client-go/rlog"
 )
 
 // ErrNoNewMsg returns a "no new message found". Occurs only when no new message found from broker

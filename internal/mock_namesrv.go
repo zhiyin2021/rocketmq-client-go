@@ -23,7 +23,7 @@ package internal
 import (
 	reflect "reflect"
 
-	primitive "github.com/apache/rocketmq-client-go/v2/primitive"
+	primitive "github.com/zhiyin2021/rocketmq-client-go/primitive"
 	gomock "github.com/golang/mock/gomock"
 )
 

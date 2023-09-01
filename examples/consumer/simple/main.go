@@ -20,22 +20,54 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/apache/rocketmq-client-go/v2"
-	"github.com/apache/rocketmq-client-go/v2/consumer"
-	"github.com/apache/rocketmq-client-go/v2/primitive"
+	"log"
 	"os"
+	"time"
+
+	"github.com/zhiyin2021/rocketmq-client-go"
+	"github.com/zhiyin2021/rocketmq-client-go/consumer"
+	"github.com/zhiyin2021/rocketmq-client-go/primitive"
+	"github.com/zhiyin2021/rocketmq-client-go/rlog"
+)
+
+const (
+	endpoint  = "http://MQ_INST_5845280770824374_BYi43TiH.ap-southeast-1.mq.aliyuncs.com:80"
+	accesskey = "LTAI5t9WMn6fLwuiF4PRNUgQ"
+	secretkey = "QA1LhXVTNzXKX5ORBFDQKO9w16X3IL"
+	namespace = "MQ_INST_5845280770824374_BYi43TiH"
+	topic     = "GO_TEST"
+	groupName = "GID_GO_TEST"
 )
 
 func main() {
 	sig := make(chan os.Signal)
 	c, _ := rocketmq.NewPushConsumer(
-		consumer.WithGroupName("testGroup"),
-		consumer.WithNsResolver(primitive.NewPassthroughResolver([]string{"127.0.0.1:9876"})),
+		consumer.WithCredentials(primitive.Credentials{
+			AccessKey: accesskey,
+			SecretKey: secretkey,
+		}),
+		consumer.WithConsumerModel(consumer.Clustering),
+		consumer.WithGroupName(groupName),
+		consumer.WithNsResolver(primitive.NewPassthroughResolver([]string{endpoint})),
+		consumer.WithConsumerModel(consumer.Clustering),
+		consumer.WithNamespace(namespace),
+		consumer.WithTrace(&primitive.TraceConfig{
+			Access: primitive.Cloud,
+			// GroupName:    groupName,
+			NamesrvAddrs: []string{endpoint},
+			Credentials: primitive.Credentials{
+				AccessKey: accesskey,
+				SecretKey: secretkey,
+			},
+		}),
 	)
-	err := c.Subscribe("test", consumer.MessageSelector{}, func(ctx context.Context,
+
+	rlog.SetLogLevel("warn")
+	err := c.Subscribe(topic, consumer.MessageSelector{}, func(ctx context.Context,
 		msgs ...*primitive.MessageExt) (consumer.ConsumeResult, error) {
 		for i := range msgs {
-			fmt.Printf("subscribe callback: %v \n", msgs[i])
+			fmt.Printf("#############subscribe callback: %v \n", msgs[i])
+			time.Sleep(time.Millisecond * 50)
 		}
 
 		return consumer.ConsumeSuccess, nil
@@ -43,8 +75,10 @@ func main() {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
+
 	// Note: start after subscribe
 	err = c.Start()
+	log.Println("consumer start success")
 	if err != nil {
 		fmt.Println(err.Error())
 		os.Exit(-1)

@@ -29,9 +29,9 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/apache/rocketmq-client-go/v2/internal/remote"
-	"github.com/apache/rocketmq-client-go/v2/primitive"
-	"github.com/apache/rocketmq-client-go/v2/rlog"
+	"github.com/zhiyin2021/rocketmq-client-go/internal/remote"
+	"github.com/zhiyin2021/rocketmq-client-go/primitive"
+	"github.com/zhiyin2021/rocketmq-client-go/rlog"
 )
 
 type TraceBean struct {

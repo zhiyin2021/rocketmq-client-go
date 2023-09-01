@@ -19,8 +19,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/apache/rocketmq-client-go/v2/rlog"
 	"os"
+
+	"github.com/zhiyin2021/rocketmq-client-go/rlog"
 )
 
 type command interface {

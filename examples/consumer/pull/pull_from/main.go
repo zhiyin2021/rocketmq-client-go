@@ -23,12 +23,12 @@ import (
 	"log"
 	"time"
 
-	"github.com/apache/rocketmq-client-go/v2"
+	"github.com/zhiyin2021/rocketmq-client-go"
 
-	"github.com/apache/rocketmq-client-go/v2/admin"
-	"github.com/apache/rocketmq-client-go/v2/consumer"
-	"github.com/apache/rocketmq-client-go/v2/primitive"
 	"github.com/go-redis/redis/v8"
+	"github.com/zhiyin2021/rocketmq-client-go/admin"
+	"github.com/zhiyin2021/rocketmq-client-go/consumer"
+	"github.com/zhiyin2021/rocketmq-client-go/primitive"
 )
 
 const (

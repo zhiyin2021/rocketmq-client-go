@@ -19,13 +19,14 @@ package remote
 import (
 	"bytes"
 	"context"
-	"github.com/apache/rocketmq-client-go/v2/errors"
 	"math/rand"
 	"net"
 	"reflect"
 	"sync"
 	"testing"
 	"time"
+
+	"github.com/zhiyin2021/rocketmq-client-go/errors"
 
 	"github.com/stretchr/testify/assert"
 )
